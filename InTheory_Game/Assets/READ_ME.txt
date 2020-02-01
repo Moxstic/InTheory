@@ -1,6 +1,6 @@
 ======================= Grove (Working Title) ==========================
 
-This project was developed by Eddie T. Hilton on behalf of InTheory 
+This project was developed by InTheory 
 (allocated Profesional Practice project group) as a mockup of the game 
 'Grove' (working title), for an assignment at University of East London.
 
@@ -38,3 +38,4 @@ Source: - https://assetstore.unity.com/packages/templates/systems/full-body-fps-
 (Free)
 
 Credit for all the ideas and design of the game go to the team InTheory, named below;
+(PLEASE INSERT FULL NAMES)
