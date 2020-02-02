@@ -77,7 +77,7 @@ namespace EasySurvivalScripts
             Vector3 fwdMovement = characterController.isGrounded == true ? transform.forward * vInput : Vector3.zero;
             Vector3 rightMovement = characterController.isGrounded == true ? transform.right * hInput : Vector3.zero;
 
-            float _speed = Input.GetButton(RunInput) ? runSpeed : walkSpeed;
+            float _speed = walkSpeed;// = Input.GetButton(RunInput) ? runSpeed : walkSpeed;
             characterController.SimpleMove(Vector3.ClampMagnitude(fwdMovement + rightMovement, 1f) * _speed);
 
             //if (characterController.isGrounded)
@@ -90,10 +90,10 @@ namespace EasySurvivalScripts
                     playerStates = PlayerStates.Idle;
                 else
                 {
-                    if (_speed == walkSpeed)
+                    //if (_speed == walkSpeed)
                         playerStates = PlayerStates.Walking;
-                    else
-                        playerStates = PlayerStates.Running;
+                    //else
+                    //    playerStates = PlayerStates.Running;
 
                     _footstepDelay = (2/_speed);
                 }
