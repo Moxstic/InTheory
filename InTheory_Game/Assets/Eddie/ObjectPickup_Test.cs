@@ -35,7 +35,7 @@ public class ObjectPickup_Test : MonoBehaviour
         {
             ThisBody.useGravity = false;
             transform.position = CarryPos.position;
-            transform.parent = CarryPos;
+            transform.parent = CarryPos; // Childs this object to the empty attached to the player that represents their hand.
 
             ThisBody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY; // Constrains position of the object while picked up.
         }
@@ -46,7 +46,7 @@ public class ObjectPickup_Test : MonoBehaviour
     {
         if (transform.parent != DefaultParent)
         {
-            transform.parent = DefaultParent;
+            transform.parent = DefaultParent; // Sets the object's parent to whatever it was when the level loaded.  Usually this'll be none.
             ThisBody.useGravity = true;
 
             ThisBody.constraints = RigidbodyConstraints.None; //Gets rid of all the constraints so that the object will behave normally when dropped.
