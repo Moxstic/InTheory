@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class NodeLineLookAtMouse : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float speed = 10.0f;
 
-    // Update is called once per frame
     void Update()
     {
-        
-    }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float hitdist = 0.0f;
+ 	
+        // Get the point along the ray that hits the calculated distance.
+        Vector3 targetPoint = ray.GetPoint(hitdist);
+
+        // Determine the target rotation.  This is the rotation if the transform looks at the target point.
+        Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+
+        // Smoothly rotate towards the target point.
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed* Time.deltaTime);
+	}
+
 }

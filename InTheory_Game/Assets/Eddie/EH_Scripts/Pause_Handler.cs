@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using EasySurvivalScripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +15,12 @@ public class Pause_Handler : MonoBehaviour
 
     public GameObject NodePrefab;
 
-
     public GameObject Whitewash;
     public GameObject MinigameWindow;
     public GameObject NodeContainer;
     public GameObject NodeSpawnPoint;
+
+    public GameObject CameraController;
 
     private RectTransform NodeSpawnCoordinates;
 
@@ -31,6 +33,7 @@ public class Pause_Handler : MonoBehaviour
         MinigameWindow = GameObject.Find("MinigameWindow");
         NodeContainer = GameObject.Find("NodeContainer");
         NodeSpawnPoint = GameObject.Find("NodeSpawnPoint");
+        CameraController = GameObject.Find("Camera Controller");
         NodeSpawnCoordinates = NodeSpawnPoint.GetComponent<RectTransform>();
         MinigameWindow.SetActive(false);
     }
@@ -41,6 +44,10 @@ public class Pause_Handler : MonoBehaviour
         if ( Input.GetKeyDown(ultKey) ) // Input key Q was selected as this is the default key for ultimates in Overwatch, a popular FPS game.
         {
             isGamePaused = true;
+            if (isMinigameRunning != true)
+            {
+                StartMinigame();
+            }
             isMinigameRunning = true;
         }
 
@@ -51,8 +58,7 @@ public class Pause_Handler : MonoBehaviour
 
         if (isMinigameRunning == true)
         {
-            StartMinigame();
-            isMinigameRunning = false;
+
         }
     }
 
@@ -80,6 +86,10 @@ public class Pause_Handler : MonoBehaviour
         int direction = 1; // direction values; 1 = right, 2 = up, 3 = left, 4 = down.
 
         int nodesSpawned;
+
+        CameraController.GetComponent<PlayerCamera>().enabled = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         MinigameWindow.SetActive(true);
 
