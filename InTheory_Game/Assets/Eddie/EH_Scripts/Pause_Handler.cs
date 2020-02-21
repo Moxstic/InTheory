@@ -64,11 +64,11 @@ public class Pause_Handler : MonoBehaviour
 
     public void StartMinigame()
     {
-        int spiralMagnitude = 0;
-
+        int spiralMagnitude = 0; // A value used to count up the length of the current edge of the spiral.
+        
+        // The bounds of the generation space
         int maxX = 450;
         int minX = -450;
-
         int maxY = 250;
         int minY = -250;
 
@@ -85,7 +85,10 @@ public class Pause_Handler : MonoBehaviour
 
         int direction = 1; // direction values; 1 = right, 2 = up, 3 = left, 4 = down.
 
-        int nodesSpawned;
+        int nodesSpawned;  //Will be used to detect when all the spawned nodes have been acivated.
+
+        int compulsorySecondNodePos = Random.Range(1, 29); //
+        bool minNodesMet = false; // 
 
         CameraController.GetComponent<PlayerCamera>().enabled = false;
         Cursor.visible = true;
@@ -129,17 +132,30 @@ public class Pause_Handler : MonoBehaviour
                 // Decide randomly if to spawn a node in each location
                 if (Random.Range(0, 101) <= percentageChanceToSpawnNode && spawnY < maxY)
                 {
-
+                    // Determine variation from spawn position randomly.
                     Xrand = Random.Range(0, positionRange) - (positionRange / 2);
                     Yrand = Random.Range(0, positionRange) - (positionRange / 2);
-                    // Determine variation from spawn position randomly.
-
 
                     //Instantiate next node
                     tempNode = Instantiate(NodePrefab, NodeContainer.transform);
                     tempNode.GetComponent<RectTransform>().localPosition = new Vector3(spawnX + Xrand, spawnY + Yrand, 0);
 
+                } else
+                {
+                    // Decrement countdown to compulsory second node.
+                    compulsorySecondNodePos--;
+                    if (compulsorySecondNodePos <= 0 && minNodesMet == false)
+                    {
+                        // Determine variation from spawn position randomly.
+                        Xrand = Random.Range(0, positionRange) - (positionRange / 2);
+                        Yrand = Random.Range(0, positionRange) - (positionRange / 2);
 
+                        //Instantiate next node
+                        tempNode = Instantiate(NodePrefab, NodeContainer.transform);
+                        tempNode.GetComponent<RectTransform>().localPosition = new Vector3(spawnX + Xrand, spawnY + Yrand, 0);
+
+                        minNodesMet = true; //Now that a second compulsory node has ben included, this ensures this If statement isn't triggered again.
+                    }
                 }
             }
 
