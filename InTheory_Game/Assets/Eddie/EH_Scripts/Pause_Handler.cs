@@ -7,24 +7,36 @@ using UnityEngine.UI;
 public class Pause_Handler : MonoBehaviour
 {
 
-    public bool isGamePaused = false;
-    public bool isMinigameRunning = false;
+    private bool isGamePaused = false;
+    private bool isMinigameRunning = false;
     public string ultKey = "q";
 
     public int percentageChanceToSpawnNode = 50;
 
+    public GameObject RandomTempChimePrefab;
     public GameObject NodePrefab;
 
-    public GameObject Whitewash;
-    public GameObject MinigameWindow;
-    public GameObject NodeContainer;
-    public GameObject NodeSpawnPoint;
+    private GameObject Whitewash;
+    private GameObject MinigameWindow;
+    private GameObject NodeContainer;
+    private GameObject NodeSpawnPoint;
 
-    public GameObject CameraController;
+    private GameObject CameraController;
 
     private RectTransform NodeSpawnCoordinates;
 
+
+    private GameObject initNode; // Initial node
     private GameObject tempNode; // Temporarily holds node game object to set it's parameters.
+    private List<GameObject> nodeList = new List<GameObject>();
+
+    public GameObject activeNodeLine;
+
+    public GameObject activatingGameEvent;
+
+
+    private int nodesSpawned;  //Will be used to detect when all the spawned nodes have been acivated.
+    public int nodesActivated;
 
     // Start is called before the first frame update
     void Start()
@@ -56,14 +68,17 @@ public class Pause_Handler : MonoBehaviour
 
         }
 
-        if (isMinigameRunning == true)
+        if (isMinigameRunning == true  && nodesSpawned == nodesActivated)
         {
-
+            EndMinigame();
         }
+        
+
     }
 
     public void StartMinigame()
     {
+        
         int spiralMagnitude = 0; // A value used to count up the length of the current edge of the spiral.
         
         // The bounds of the generation space
@@ -85,7 +100,6 @@ public class Pause_Handler : MonoBehaviour
 
         int direction = 1; // direction values; 1 = right, 2 = up, 3 = left, 4 = down.
 
-        int nodesSpawned;  //Will be used to detect when all the spawned nodes have been acivated.
 
         int compulsorySecondNodePos = Random.Range(1, 29); //
         bool minNodesMet = false; // 
@@ -100,7 +114,10 @@ public class Pause_Handler : MonoBehaviour
 
 
         // Instatiate first node
-        Instantiate(NodePrefab, NodeContainer.transform);
+        initNode = Instantiate(NodePrefab, NodeContainer.transform);
+
+        nodeList.Add(initNode);
+        nodesSpawned++;
 
         while (spawnX < maxX && spawnX > minX && spawnY < maxY && spawnY > minY)
         {
@@ -140,6 +157,11 @@ public class Pause_Handler : MonoBehaviour
                     tempNode = Instantiate(NodePrefab, NodeContainer.transform);
                     tempNode.GetComponent<RectTransform>().localPosition = new Vector3(spawnX + Xrand, spawnY + Yrand, 0);
 
+                    //Add node to list for handling later.
+                    nodeList.Add(tempNode);
+
+                    nodesSpawned++;
+
                 } else
                 {
                     // Decrement countdown to compulsory second node.
@@ -153,6 +175,10 @@ public class Pause_Handler : MonoBehaviour
                         //Instantiate next node
                         tempNode = Instantiate(NodePrefab, NodeContainer.transform);
                         tempNode.GetComponent<RectTransform>().localPosition = new Vector3(spawnX + Xrand, spawnY + Yrand, 0);
+                        //Add node to list for handling later.
+                        nodeList.Add(tempNode);
+
+                        nodesSpawned++;
 
                         minNodesMet = true; //Now that a second compulsory node has ben included, this ensures this If statement isn't triggered again.
                     }
@@ -180,5 +206,32 @@ public class Pause_Handler : MonoBehaviour
 
         }
 
+    }
+
+    void EndMinigame()
+    {
+        foreach (GameObject node in nodeList)
+        {
+            Object.Destroy(node);
+        }
+
+
+        CameraController.GetComponent<PlayerCamera>().enabled = true;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        MinigameWindow.SetActive(false);
+
+        Instantiate(RandomTempChimePrefab);
+
+        isMinigameRunning = false;
+
+
+        Debug.LogWarning("END MINIGAME");
+    }
+
+    public void DeactivateNodeLines()
+    {
+        
     }
 }

@@ -17145,13 +17145,14 @@ MonoBehaviour:
   isGamePaused: 0
   isMinigameRunning: 0
   ultKey: q
-  percentageChanceToSpawnNode: 50
+  percentageChanceToSpawnNode: 100
   NodePrefab: {fileID: 5473404283605881409, guid: ba81617e6fe1a8a4388e59780f065430,
     type: 3}
   Whitewash: {fileID: 0}
   MinigameWindow: {fileID: 0}
   NodeContainer: {fileID: 0}
   NodeSpawnPoint: {fileID: 0}
+  CameraController: {fileID: 0}
 --- !u!4 &1042134087
 Transform:
   m_ObjectHideFlags: 0
