@@ -801,6 +801,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activated: {fileID: 5443153341579738767}
+  thisLine: {fileID: 0}
+  lastLine: {fileID: 0}
+  pauseHandler: {fileID: 0}
 --- !u!61 &716284254960580586
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -892,7 +895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5508863988038996728
 RectTransform:
   m_ObjectHideFlags: 0
@@ -925,6 +928,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea42daa574707cf4f9750d36df23ea63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActiveLine: 0
+  lineWidth: 1
+  nextNodePos: {x: 0, y: 0, z: 0}
+  pauseHandler: {fileID: 0}
 --- !u!1 &6790923089847098039
 GameObject:
   m_ObjectHideFlags: 0
